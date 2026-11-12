@@ -96,3 +96,10 @@ label{display:grid;gap:.3rem;font-weight:600;font-size:.92rem}
 .bulk{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin:.6rem 0;padding:.6rem 0;border-top:1.5px solid var(--rule)}
 .chk{display:flex;align-items:center;gap:.45rem;font-weight:600}.chk input,.pick{width:20px;min-height:20px;height:20px;flex:none;accent-color:var(--teal)}
 .ghost.bad{color:var(--stamp);border-color:var(--stamp)}
+
+/* new white logo: sits directly on the dark bars, and on a dark card on the light login page */
+.mlogo{display:block;line-height:0}.mlogo img{display:block;height:34px;width:auto}
+.sidebrand{padding:0 .8rem;display:grid;gap:.45rem}.sidebrand img{display:block;width:100%;max-width:190px;height:auto}
+.sidebrand small{font:400 .85rem var(--body);color:#9aa7ab;letter-spacing:.04em}
+.brandcard{display:block;width:fit-content;max-width:100%;background:var(--bar);border-radius:6px;padding:.9rem 1.4rem}
+.brandcard img{display:block;width:min(240px,100%);height:auto}
