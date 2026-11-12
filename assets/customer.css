@@ -46,13 +46,13 @@ input:focus-visible,select:focus-visible,.btn:focus-visible,.link:focus-visible{
 .brand{display:flex;align-items:center;gap:.7rem}.lg{display:block;width:42px;height:42px;flex:none;background:#fff;border-radius:4px;padding:3px}.bar{align-items:center}
 
 /* page background image */
-body{position:relative;background:var(--bg) url(/assets/bg.jpg) center/cover no-repeat fixed}
-body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(227,231,232,.55),rgba(227,231,232,.8))}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body::before{background:linear-gradient(180deg,rgba(20,26,29,.6),rgba(20,26,29,.85))}}
+body{position:relative;background:var(--bg)}
+/* 16:9 background: edges were extended so nothing important is lost when the window crops it */
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(227,231,232,.4),rgba(227,231,232,.65)),url(/assets/bg.jpg) center/cover no-repeat}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body::before{background:linear-gradient(180deg,rgba(20,26,29,.45),rgba(20,26,29,.7)),url(/assets/bg.jpg) center/cover no-repeat}}
 .side,.main{background:color-mix(in srgb,var(--bg) 84%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:6px;padding:1.2rem}
 @media(min-width:900px){.main{padding:1.8rem 2.2rem;border-left:0}.side{padding:1.8rem}}
 .foot{background:color-mix(in srgb,var(--bg) 84%,transparent);border-radius:6px;padding:.8rem 1.1rem;margin-bottom:1.5rem}
-@media(max-width:899px){body{background-attachment:scroll}}
 /* email verification */
 .verify{display:grid;gap:.7rem;padding:.9rem;border:1.5px dashed var(--line);border-radius:4px;background:color-mix(in srgb,var(--field) 55%,transparent)}
 .otp-row{display:grid;gap:.6rem;grid-template-columns:minmax(0,1fr) auto}
@@ -76,3 +76,10 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .contact li{display:grid;gap:.1rem}.contact li span{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 .contact a{color:var(--teal-d);font-weight:600}.contact address{font-style:normal}
 .foot .legal{margin:0;padding-top:.8rem;border-top:1.5px solid var(--line);color:var(--muted);font-size:.85rem}
+/* phones / portrait screens get a portrait version of the background */
+@media (max-aspect-ratio:1/1){
+body::before{background:linear-gradient(180deg,rgba(227,231,232,.4),rgba(227,231,232,.65)),url(/assets/bg-mobile.jpg) center/cover no-repeat}
+.side,.main{padding:1rem}
+.brandcard img{width:min(200px,100%)}
+}
+@media (max-aspect-ratio:1/1) and (prefers-color-scheme:dark){:root:not([data-theme="light"]) body::before{background:linear-gradient(180deg,rgba(20,26,29,.45),rgba(20,26,29,.7)),url(/assets/bg-mobile.jpg) center/cover no-repeat}}
