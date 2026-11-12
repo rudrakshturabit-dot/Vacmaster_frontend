@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Register your VacMaster warranty</title>
+<link rel="icon" href="/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Hanken+Grotesk:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/customer.css">
+</head>
+<body>
+<div class="stage">
+<section class="side">
+<a class="brandcard" href="/" aria-label="VacMaster home"><img src="/assets/logo-white.png" alt="VacMaster" width="260" height="65"></a>
+<h1>Register your warranty</h1>
+<p class="lead">Type the barcode printed on the rating plate, or scan its QR code. Your model fills in on its own.</p>
+<figure class="plate" id="plate" aria-label="Product rating plate">
+<i class="rv"></i><i class="rv"></i><i class="rv"></i><i class="rv"></i>
+<div class="bars" aria-hidden="true"></div>
+<div class="serial" id="pSerial">VM-- ----</div>
+<dl><div><dt>Type</dt><dd id="pType">-</dd></div><div><dt>Model</dt><dd id="pModel">-</dd></div><div><dt>Warranty</dt><dd id="pWar">-</dd></div></dl>
+<div class="stamp" id="stamp" hidden></div>
+</figure>
+</section>
+
+<section class="main">
+<form id="reg" novalidate>
+<fieldset><legend>Your product</legend>
+<label>Barcode number<input id="code" required autocomplete="off" placeholder="Printed under the barcode"></label>
+<p class="err" id="err" role="status"></p>
+<label>Model<select id="model" required></select></label>
+<label>Purchase date<input type="date" id="pd"></label>
+</fieldset>
+<fieldset><legend>Your details</legend>
+<label>Full name<input id="name" required autocomplete="name" placeholder="Your full name"></label>
+<label>Email address <small class="opt">(optional)</small><input id="email" type="email" autocomplete="email" placeholder="you@example.com"></label>
+<div class="verify" id="verifyBox" role="group" aria-label="Email verification">
+<button type="button" class="btn alt" id="sendOtp" disabled>Send verification code</button>
+<div class="otp-row"><input id="otp" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" autocomplete="one-time-code" placeholder="6-digit code" aria-label="6-digit verification code" disabled><button type="button" class="btn" id="verifyOtp" disabled>Verify code</button></div>
+<p class="vstatus" id="vstatus" role="status">Optional. Add an email to get confirmation emails; we will verify it first.</p>
+</div>
+<label>Phone number<input id="phone" required type="tel" inputmode="numeric" autocomplete="tel" minlength="10" maxlength="10" pattern="[0-9]{10}" title="Enter exactly 10 digits" placeholder="10-digit mobile number"></label>
+</fieldset>
+<p class="err" id="err2" role="alert"></p>
+<button class="btn" id="regBtn">Register warranty</button>
+<div class="swap"><button type="button" class="link" id="toChk">Already registered? Check your warranty</button></div>
+</form>
+
+<div class="done" id="done" hidden><h2>Warranty registered</h2><p id="doneText"></p><button class="btn" id="again">Register another product</button></div>
+
+<form id="chk" hidden>
+<fieldset><legend>Check your warranty</legend>
+<label>Barcode number<input id="code2" required autocomplete="off"></label>
+<label>Phone number used to register<input id="phone2" required type="tel" inputmode="numeric" minlength="10" maxlength="10" pattern="[0-9]{10}" title="Enter exactly 10 digits" placeholder="10-digit mobile number"></label></fieldset>
+<p class="err" id="cerr" role="alert"></p>
+<button class="btn">Check status</button>
+<div class="swap"><button type="button" class="link" id="toReg">Back to registration</button></div>
+</form>
+</section>
+</div>
+<footer class="foot">
+<div class="contact"><h2>Contact us</h2>
+<ul>
+<li><span>Phone</span><a href="tel:+910000000000">+91 00000 00000</a></li>
+<li><span>Email</span><a href="mailto:support@example.com">support@example.com</a></li>
+<li><span>Address</span><address>Your company address, City, State, PIN</address></li>
+<li><span>Hours</span>Mon to Sat, 9:30 am to 6:30 pm</li>
+</ul></div>
+<p class="legal">© VacMaster. <a href="/admin">Admin sign in</a></p>
+</footer>
+
+<script src="/assets/customer.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VacMaster Admin sign in</title>
+<link rel="icon" href="/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Hanken+Grotesk:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/admin.css">
+</head>
+<body class="loginpage">
+<main class="login">
+<img class="lgbig" src="/assets/logo.png" alt="VacMaster logo">
+<h1 id="pageTitle">Admin sign in</h1>
+<form id="loginForm"><label>Email address<input id="email" type="email" required autocomplete="username" placeholder="admin@example.com"></label>
+<label>Password<input id="password" type="password" required autocomplete="current-password"></label>
+<p class="err" id="loginErr" role="alert"></p><button class="btn">Sign in</button></form>
+<button class="link" id="showForgot" type="button">Forgot password?</button>
+<section id="forgotPanel" hidden>
+<form id="requestOtp"><label>Registered email address<input id="resetEmail" type="email" required autocomplete="email" placeholder="admin@example.com"></label><p class="err" id="forgotErr" role="alert"></p><button class="btn">Send verification OTP</button></form>
+<form id="verifyOtp" hidden><label>6-digit email OTP<input id="otp" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code"></label><p class="err" id="otpErr" role="alert"></p><button class="btn">Verify OTP</button></form>
+<form id="setPassword" hidden><label>New password<input id="newPassword" type="password" minlength="12" required autocomplete="new-password"></label><label>Confirm new password<input id="confirmPassword" type="password" minlength="12" required autocomplete="new-password"></label><p class="err" id="passwordErr" role="alert"></p><button class="btn">Reset password</button></form>
+</section>
+<a href="/">Back to the registration page</a>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let resetToken = '';
+if (localStorage.getItem('vm_access_token')) location.replace('/admin');
+const post = async (url, body) => {
+  const r = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  const d = await r.json().catch(()=>({}));
+  if (!r.ok) throw new Error(typeof d.detail === 'string' ? d.detail : 'Request failed');
+  return d;
+};
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault(); $('loginErr').textContent='';
+  try { const d=await post('/api/admin/login',{email:$('email').value.trim(),password:$('password').value});
+    localStorage.setItem('vm_access_token',d.access_token); localStorage.setItem('vm_refresh_token',d.refresh_token); location.replace('/admin');
+  } catch(x) {$('loginErr').textContent=x.message;}
+});
+$('showForgot').onclick=()=>{$('loginForm').hidden=true;$('showForgot').hidden=true;$('forgotPanel').hidden=false;$('pageTitle').textContent='Reset your password';$('resetEmail').value=$('email').value;};
+$('requestOtp').addEventListener('submit',async e=>{e.preventDefault();$('forgotErr').textContent='';try{await post('/api/admin/forgot-password',{email:$('resetEmail').value.trim()});$('requestOtp').hidden=true;$('verifyOtp').hidden=false;$('forgotErr').textContent='';}catch(x){$('forgotErr').textContent=x.message;}});
+$('verifyOtp').addEventListener('submit',async e=>{e.preventDefault();$('otpErr').textContent='';try{const d=await post('/api/admin/verify-otp',{email:$('resetEmail').value.trim(),otp:$('otp').value.trim()});resetToken=d.reset_token;$('verifyOtp').hidden=true;$('setPassword').hidden=false;}catch(x){$('otpErr').textContent=x.message;}});
+$('setPassword').addEventListener('submit',async e=>{e.preventDefault();$('passwordErr').textContent='';if($('newPassword').value!==$('confirmPassword').value){$('passwordErr').textContent='Passwords do not match';return;}try{await post('/api/admin/reset-password',{reset_token:resetToken,new_password:$('newPassword').value});$('pageTitle').textContent='Password updated';$('setPassword').hidden=true;$('forgotPanel').hidden=true;$('loginForm').hidden=false;$('showForgot').hidden=false;$('loginErr').textContent='Password updated. Sign in using your new password.';}catch(x){$('passwordErr').textContent=x.message;}});
+</script>
+</body>
+</html>
